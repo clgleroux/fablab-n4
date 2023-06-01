@@ -1,0 +1,7 @@
+dist/
+
+# macOS
+.DS_Store
+
+# VSCODE
+.vscode/

@@ -1,20 +1,39 @@
-#include "Stepper.h"
+#define in1 8
+#define in2 9
+#define in3 10
+#define in4 11
 
-const int stepsPerRevolution = 200;
-
-Stepper myStepper(stepsPerRevolution, 8, 9, 10, 11);
+int dl = 20; // temps entre les pas, minimum 10 ms
 
 void setup() {
-  pinMode(12, INPUT);
-  myStepper.setSpeed(60);
+    pinMode(in1, OUTPUT);
+    pinMode(in2, OUTPUT);
+    pinMode(in3, OUTPUT);
+    pinMode(in4, OUTPUT);
 }
 
 void loop() {
+    digitalWrite(in1, HIGH); 
+    digitalWrite(in2, LOW); 
+    digitalWrite(in3, LOW); 
+    digitalWrite(in4, HIGH);
+    delay(dl);
 
-  int a = digitalRead(12);
-  int b =1;
-  if (a==b) {
-     myStepper.step(500);
-     delay(2000);
-  }
+    digitalWrite(in1, HIGH); 
+    digitalWrite(in2, HIGH); 
+    digitalWrite(in3, LOW); 
+    digitalWrite(in4, LOW);
+    delay(dl);
+
+    digitalWrite(in1, LOW); 
+    digitalWrite(in2, HIGH); 
+    digitalWrite(in3, HIGH); 
+    digitalWrite(in4, LOW);
+    delay(dl);
+
+    digitalWrite(in1, LOW); 
+    digitalWrite(in2, LOW); 
+    digitalWrite(in3, HIGH); 
+    digitalWrite(in4, HIGH);
+    delay(dl);
 }
