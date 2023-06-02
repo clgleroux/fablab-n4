@@ -3,6 +3,7 @@
 ## DFP (Don't Forget Pill)
 
 ### Presentation
+Télécharger la vidéo depuis le fichier vid
 ![Presentation](/vid/presentation.mov "This is a presentatuin arduino")
 
 ### Schema
