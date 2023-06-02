@@ -1,39 +1,32 @@
-#define in1 8
-#define in2 9
-#define in3 10
-#define in4 11
+#include "Stepper.h"
 
-int dl = 20; // temps entre les pas, minimum 10 ms
+const int stepsPerRevolution = 200;
+const int BUTTON_PIN = 6; 
+Stepper myStepper(stepsPerRevolution, 8, 9, 10, 11);
+unsigned long timer;
 
 void setup() {
-    pinMode(in1, OUTPUT);
-    pinMode(in2, OUTPUT);
-    pinMode(in3, OUTPUT);
-    pinMode(in4, OUTPUT);
+  myStepper.setSpeed(60);
+  pinMode(13, OUTPUT);
+  pinMode(BUTTON_PIN, INPUT_PULLUP);
+  timer = millis();
+  Serial.print("Time: ");
+   Serial.println(timer);
 }
 
-void loop() {
-    digitalWrite(in1, HIGH); 
-    digitalWrite(in2, LOW); 
-    digitalWrite(in3, LOW); 
-    digitalWrite(in4, HIGH);
-    delay(dl);
+void loop() {    
+  if(digitalRead(BUTTON_PIN) == HIGH){
+    myStepper.step(200);  // nombre de pas
+    delay(200);
+    timer = millis();
+  }
+  else if(digitalRead(BUTTON_PIN) == LOW){
+    myStepper.step(0); 
+    if (millis() - timer > 10000) {
+    tone(13,500, 200); // allume le buzzer actif arduino
+    }
 
-    digitalWrite(in1, HIGH); 
-    digitalWrite(in2, HIGH); 
-    digitalWrite(in3, LOW); 
-    digitalWrite(in4, LOW);
-    delay(dl);
+  }
 
-    digitalWrite(in1, LOW); 
-    digitalWrite(in2, HIGH); 
-    digitalWrite(in3, HIGH); 
-    digitalWrite(in4, LOW);
-    delay(dl);
 
-    digitalWrite(in1, LOW); 
-    digitalWrite(in2, LOW); 
-    digitalWrite(in3, HIGH); 
-    digitalWrite(in4, HIGH);
-    delay(dl);
 }
