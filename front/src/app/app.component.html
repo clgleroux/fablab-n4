@@ -1,15 +1,18 @@
 <div id="home">
-  <div *ngFor="let day of takenPills; let index = index" class="day">
-    <div class="name">{{ dayOfWeek[index] }}</div>
-    <div class="parts">
-      <div class="case" [ngClass]="{ taking: day.ma }">Matin</div>
-      <div class="case" [ngClass]="{ taking: day.mi }">Midi</div>
-      <div class="case" [ngClass]="{ taking: day.so }">Soir</div>
+  <div id="calendar">
+    <div *ngFor="let day of takenPills; let index = index" class="day">
+      <div class="name">{{ dayOfWeek[index] }}</div>
+      <div class="parts">
+        <div class="case" [ngClass]="{ taking: day.ma }">Matin</div>
+        <div class="case" [ngClass]="{ taking: day.mi }">Midi</div>
+        <div class="case" [ngClass]="{ taking: day.so }">Soir</div>
+      </div>
     </div>
+
+    <button class="open" (click)="openPort()">+</button>
   </div>
 
-  <button class="take" (click)="openPort()">+</button>
-  <button (click)="savePill()">Test</button>
+  <button class="take" (click)="newPill()">Prendre<br />médicament</button>
 </div>
 
 <router-outlet></router-outlet>

@@ -61,6 +61,8 @@ export class AppComponent implements OnInit {
     const writer = this.port.writable.getWriter();
     await writer.write(encoder.encode('{motor:1}'));
     writer.releaseLock();
+
+    this.savePill();
   }
 
   savePill() {
