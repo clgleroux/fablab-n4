@@ -47,8 +47,8 @@
 
     .open {
       position: absolute;
-      bottom: 5px;
-      right: 5px;
+      top: 5px;
+      left: 5px;
       box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
 
       border-radius: 50%;
@@ -58,16 +58,45 @@
       transition: 0.2s;
 
       cursor: pointer;
+      padding: 2px;
+      background-color: #e3e2e2;
       &:hover {
-        background-color: red;
+        background-color: #d5d3d3;
+        width: 27px;
+        height: 27px;
+        img {
+          width: 22px;
+          height: 22px;
+        }
+      }
+
+      img {
+        width: 20px;
+        height: 20px;
+
+        transition: 0.2s;
       }
     }
   }
 
   .take {
-    width: 10%;
+    width: 20%;
     font-size: 1.5rem;
-    writing-mode: vertical-lr;
-    text-orientation: upright;
+    text-transform: uppercase;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: none;
+    background-color: aqua;
+    cursor: pointer;
+    transition: 0.2s;
+    box-shadow: 1px 0px 10px 1px #aaaaaa;
+
+    &:hover {
+      background-color: rgba(0, 255, 255, 0.4);
+      font-size: 1.6rem;
+    }
   }
 }

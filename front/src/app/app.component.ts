@@ -31,7 +31,6 @@ export class AppComponent implements OnInit {
   async openPort() {
     const port = await this.navigator.serial.requestPort();
     this.port = port;
-    console.log(port);
     this.getInfoArduino(this.port);
   }
 
@@ -46,7 +45,11 @@ export class AppComponent implements OnInit {
             break;
           }
           // Do something with |value|…
-          console.log(value);
+          // console.log(value);
+          if (value.motor === 1) {
+            this.savePill();
+          }
+          // console.log(value);
         }
       } catch (error) {
         // Handle |error|…
@@ -57,10 +60,13 @@ export class AppComponent implements OnInit {
   }
 
   async newPill() {
-    const encoder = new TextEncoder();
-    const writer = this.port.writable.getWriter();
-    await writer.write(encoder.encode('{motor:1}'));
-    writer.releaseLock();
+    // TODO : test
+    if (this.port) {
+      const encoder = new TextEncoder();
+      const writer = this.port.writable.getWriter();
+      await writer.write(encoder.encode('{motor:1}'));
+      writer.releaseLock();
+    }
 
     this.savePill();
   }
@@ -72,30 +78,25 @@ export class AppComponent implements OnInit {
 
     let newPill: boolean = false;
 
-    // for (let test in this.takenPills[today - 1]) {
-    for (let test in this.takenPills[today]) {
-      console.log(test);
-
+    for (let parts in this.takenPills[today - 1]) {
       //@ts-ignore
-      if (!this.takenPills[today][test]) {
+      if (!this.takenPills[today - 1][parts]) {
         //@ts-ignore
-        this.takenPills[today][test] = true;
+        this.takenPills[today - 1][parts] = true;
         newPill = true;
         break;
       }
     }
     if (!newPill) {
-      return this.toastrService.error('Error', 'Error');
+      return this.toastrService.error('Un problème est survenu', 'Attention');
     }
-    return this.toastrService.success('Success', 'Success');
+    return this.toastrService.success('', 'Médicament pris');
   }
 
   initToday() {
     let today = moment().day();
     // 0 = sunday...
     if (today === 0) today = 7;
-    // Test pour lundi
-    if (today === 1) today = 2;
 
     for (let index = 1; index <= 7; index++) {
       if (index < today) {
@@ -104,6 +105,7 @@ export class AppComponent implements OnInit {
         this.takenPills.push({ ma: false, mi: false, so: false });
       }
     }
-    console.log(this.takenPills);
+
+    // console.log(this.takenPills);
   }
 }

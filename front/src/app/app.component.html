@@ -9,7 +9,13 @@
       </div>
     </div>
 
-    <button class="open" (click)="openPort()">+</button>
+    <button
+      class="open"
+      (click)="openPort()"
+      *ngIf="port === undefined || port === null"
+    >
+      <img src="../assets/link-icon.png" />
+    </button>
   </div>
 
   <button class="take" (click)="newPill()">Prendre<br />médicament</button>
