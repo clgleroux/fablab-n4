@@ -10,23 +10,31 @@ void setup() {
   pinMode(13, OUTPUT);
   pinMode(BUTTON_PIN, INPUT_PULLUP);
   timer = millis();
-  Serial.print("Time: ");
-   Serial.println(timer);
+   Serial.begin(9600);
+
 }
 
-void loop() {    
+void loop() {
+  int nbrStep;
   if(digitalRead(BUTTON_PIN) == HIGH){
-    myStepper.step(200);  // nombre de pas
-    delay(200);
+    myStepper.step(stepsPerRevolution);
+    Serial.write("{motor:1}");
+    nbrStep ++;
     timer = millis();
-  }
-  else if(digitalRead(BUTTON_PIN) == LOW){
-    myStepper.step(0); 
-    if (millis() - timer > 10000) {
-    tone(13,500, 200); // allume le buzzer actif arduino
     }
 
-  }
+    if (millis() - timer > 100000) {
+    tone(13,1, 200); // allume le buzzer actif arduino
+    Serial.write("{buzzer: 1}");
+    timer = millis();
+    }
+  unsigned int AnalogValue;
+  AnalogValue = analogRead(A0);
 
-
+  if(AnalogValue > 1015){
+    myStepper(-(stepsPerRevolution*nbrStep));
+    }
 }
+  
+
+
