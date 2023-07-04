@@ -49,8 +49,14 @@ export class AppComponent implements OnInit {
           }
           // Do something with |value|…
 
+          console.log(new TextDecoder().decode(value));
+
           if (new TextDecoder().decode(value) === '{motor:1}') {
             this.savePill();
+          }
+
+          if (new TextDecoder().decode(value) === '{buzzer:1}') {
+            this.forgetPill();
           }
         }
       } catch (error) {
@@ -107,5 +113,12 @@ export class AppComponent implements OnInit {
         this.takenPills.push({ ma: false, mi: false, so: false });
       }
     }
+  }
+
+  forgetPill() {
+    return this.toastrService.error(
+      'Vous avez oublié vos médicaments',
+      'Attention'
+    );
   }
 }
