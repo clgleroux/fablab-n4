@@ -30,6 +30,8 @@ export class AppComponent implements OnInit {
 
   async openPort() {
     const port = await this.navigator.serial.requestPort();
+    await port.open({ baudRate: 9600 });
+
     this.port = port;
     this.getInfoArduino(this.port);
   }
@@ -37,6 +39,7 @@ export class AppComponent implements OnInit {
   async getInfoArduino(port: any) {
     while (port.readable) {
       const reader = port.readable.getReader();
+
       try {
         while (true) {
           const { value, done } = await reader.read();
@@ -45,11 +48,10 @@ export class AppComponent implements OnInit {
             break;
           }
           // Do something with |value|…
-          // console.log(value);
-          if (value.motor === 1) {
+
+          if (new TextDecoder().decode(value) === '{motor:1}') {
             this.savePill();
           }
-          // console.log(value);
         }
       } catch (error) {
         // Handle |error|…
@@ -105,7 +107,5 @@ export class AppComponent implements OnInit {
         this.takenPills.push({ ma: false, mi: false, so: false });
       }
     }
-
-    // console.log(this.takenPills);
   }
 }
