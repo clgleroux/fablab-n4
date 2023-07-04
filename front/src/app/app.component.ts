@@ -49,17 +49,20 @@ export class AppComponent implements OnInit {
           }
           // Do something with |value|…
 
-          console.log(new TextDecoder().decode(value));
+          var valueArduino = new TextDecoder().decode(value);
+          var infoArduino = JSON.parse(valueArduino);
+          console.log(infoArduino);
 
-          if (new TextDecoder().decode(value) === '{motor:1}') {
+          if (infoArduino.motor === 1) {
             this.savePill();
           }
 
-          if (new TextDecoder().decode(value) === '{buzzer:1}') {
+          if (infoArduino.buzzer === 1) {
             this.forgetPill();
           }
         }
       } catch (error) {
+        console.error(error);
         // Handle |error|…
       } finally {
         reader.releaseLock();

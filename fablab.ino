@@ -3,6 +3,7 @@ int outPorts[] = {11, 10, 9, 8};
 unsigned long timer;
 int nbrStep = 0;
 int temp = 0;
+String str = "";
 
 void setup() {
   // myStepper.setSpeed(60);
@@ -18,20 +19,29 @@ void setup() {
 void loop() {
   if(digitalRead(BUTTON_PIN) == HIGH){
     moveSteps(true, 256, 2);
-    Serial.write("{motor:1}");
+    Serial.write("{\"motor\":1}");
     nbrStep++;
     timer = millis();
   }
 
   if (millis() - timer > 10000) {
     tone(13,1, 200); // allume le buzzer actif arduino
-    Serial.write("{buzzer:1}");
+    Serial.write("{\"buzzer\":1}");
     timer = millis();
   }
 
+  if(Serial.available() > 0){
+    str = Serial.readStringUntil('\n');
+    if (str = '{motor:1}') {
+      moveSteps(true, 256, 2);
+      nbrStep++;
+      timer = millis();
+    }
+  }
+
+  // PAPILLON DE LUMIERE
   unsigned int AnalogValue;
   AnalogValue = analogRead(A0);
-
   if(AnalogValue > 600){
     moveSteps(false, nbrStep * 256, 2);
   }
